@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+
+    --animate-wobble: wobble 10s ease-in;
+
+    @keyframes wobble {
+        50% {
+            border-radius: 240px;
+        }
+    }
+}
