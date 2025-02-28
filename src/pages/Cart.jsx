@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PageTemplate from '../components/common/PageTemplate';
 import Container from '../components/common/Container';
 import Row from '../components/common/Row';
 import CartItem from '../components/Cart/CartItem';
+import { CartContext } from '../ContextAPI';
 
 const Cart = () => {
+     const {cartItems} = useContext(CartContext)
     return ( <PageTemplate>
         <Container className="my-[40px]">
             <Row className="mb-[30px] justify-center">
@@ -18,11 +20,7 @@ const Cart = () => {
                     <h6 className='text-white text-[18px] font-medium w-[20%] text-center'>Qty</h6>
                     <h6 className='text-white text-[18px] font-medium w-[20%] text-center'>Total</h6> 
                 </Row>
-                <CartItem />
-                <CartItem />
-                <CartItem />
-                <CartItem />
-                <CartItem />
+                { cartItems.map(item => <CartItem data = {item} key = {item._id}/> )}
             </Row>
         </Container>
     </PageTemplate> );

@@ -7,15 +7,18 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 const PopularProducts = () => {
   
+  const [products , setProducts] = useState([])
 
   const getData = async ()=> {
     try {
-      const response = await axios.get(apiEndpoints.products())
-      console.log(response)
+      const url = apiEndpoints.products();
+      const response = await axios.get(url);
+      setProducts(response.data.docs);
     } catch (error) {
-      console.log("Error:" , error)
+      console.log("Error:" , error);
     }
   }
+  
 
   useEffect(()=> {
     getData()
@@ -29,13 +32,13 @@ const PopularProducts = () => {
           <div className="h-[648px] w-[52px] relative"> 
           <p className="text-[36px] h-full w-[648px] font-normal text-black -rotate-90 absolute text-center -z-[1]">Explore new and popular styles</p>
           </div>
-          <Link to="/product-detail">
-          <img className="h-[648px] w-[648px] object-cover cursor-pointer" src="https://images.unsplash.com/photo-1739652398594-b418fd631543?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="clothes" />
+          <Link to={`/product/${products[0]?._id}`}>
+          <img className="h-[648px] w-[648px] object-cover cursor-pointer" src={products[0]?.img} alt={products[0]?.title} />
           </Link>
           <Row className="w-1/2 flex-wrap gap-[26px]">
-          { [...new Array(4)].map((_ , idx) => (
-          <Link to="/product-detail" key={idx} className="w-[46%] h-[311px]">
-            <img className="w-[312px] h-full object-cover cursor-pointer" src="https://images.unsplash.com/photo-1501127122-f385ca6ddd9d?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="products" />
+          { products.slice(1).map((item , idx) => (
+          <Link to={ `/product/${item._id}`} key={item._id} className="w-[46%] h-[311px]">
+            <img className="w-[312px] h-full object-cover cursor-pointer" src={item.img} alt={item.title} />
           </Link>
           ))
           }   
